@@ -4,7 +4,7 @@ My solutions to the Advent of Code 2025 challenges.
 
 ## Setup
 All solutions are created using a template from the [/advent/template](./advent/template) folder.
-In order to generate packages for each day, first copy the [.env.example](./.env.example) file to .env and set the `COOKIE` variable to your Advent of Code session cookie (you can snatch this from your browser after logging in to Advent of Code).
+In order to generate packages for each day, first copy the [.env.example](./advent/.env.example) file to .env and set the `COOKIE` variable to your Advent of Code session cookie (you can snatch this from your browser after logging in to Advent of Code).
 It should look something like this:
 
 ```

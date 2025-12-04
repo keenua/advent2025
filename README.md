@@ -20,7 +20,7 @@ uv run advent/initializer.py
 Note that you might need to rerun this setup when a new day is unlocked.
 
 This will create folders like `./advent/day1`, `./advent/day2`, etc. with the necessary files to get started.
-It will also download the task input to `data.txt`, and task description to `task.html`. It also create `test.txt` file for you to add the test input from the task. These are used by the [template code to run tests](./advent/template/test_solver.py). The [solver itself](./advent/template/solver.py) has the setup for parsing inputs, solving both parts of the task, and the code to submit the answers.
+It will also download the task input to `data.txt`, and task description to `task.html`. It also creates `test.txt` file for you to add the test input from the task. These are used by the [template code to run tests](./advent/template/test_solver.py). The [solver itself](./advent/template/solver.py) has the setup for parsing inputs, solving both parts of the task, and the code to submit the answers.
 
 ## Running
 To run tests for the day (day 1 used as an example), use the following command:

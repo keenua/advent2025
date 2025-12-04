@@ -18,7 +18,6 @@ class Solver:
 
     def parse_input(self, input: str) -> Input:
         lines = input.strip().split(",")
-        print(lines)
         ranges = [self.parse_range(line) for line in lines]
         return Input(ranges=ranges)
 

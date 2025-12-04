@@ -4,23 +4,71 @@ from dataclasses import dataclass
 from dotenv import load_dotenv
 
 from advent.initializer import AdventClient
-from math import copysign
+from functools import cache
 
 
 @dataclass
 class Input:
-    raw_data: str
+    numbers: list[str]
 
 
 class Solver:
     def parse_input(self, input: str) -> Input:
-        return Input(raw_data=input)
+        lines = [line.strip() for line in input.strip().splitlines()]
+        return Input(numbers=lines)
+
+    def calculate_joltage(self, number: str) -> int:
+        max_joltage = 0
+
+        for i in range(9, 1, -1):
+            if str(i) not in number:
+                continue
+
+            index = number.index(str(i))
+            if index == len(number) - 1:
+                joltage = i
+            else:
+                highest_after = max(int(digit) for digit in number[index + 1 :])
+                joltage = i * 10 + highest_after
+            if joltage > max_joltage:
+                max_joltage = joltage
+        return max_joltage
+
+    @cache
+    def calculate_joltage_recursive(self, number: str, depth: int = 2) -> int:
+        if depth == 0:
+            return 0
+
+        if depth > len(number):
+            return -1
+
+        try:
+            digit = number[0]
+            next_number = number[1:]
+            next_joltage_with = self.calculate_joltage_recursive(next_number, depth - 1)
+            joltage_without = self.calculate_joltage_recursive(next_number, depth)
+            joltage_with = int(digit) * (10 ** (depth - 1)) + next_joltage_with
+
+            joltage = max(joltage_with, joltage_without)
+
+            return joltage
+        except:
+            print(number, depth)
+            raise
 
     def solve_part1(self, data: Input) -> str:
-        return "Not implemented yet"
+        total = 0
+        for number in data.numbers:
+            joltage = self.calculate_joltage_recursive(number, 2)
+            total += joltage
+        return str(total)
 
     def solve_part2(self, data: Input) -> str:
-        return "Not implemented yet"
+        total = 0
+        for number in data.numbers:
+            joltage = self.calculate_joltage_recursive(number, 12)
+            total += joltage
+        return str(total)
 
     def solve(self, input_file: str, first_part: bool) -> str:
         with open(input_file, "r") as f:

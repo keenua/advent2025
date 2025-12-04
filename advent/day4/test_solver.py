@@ -9,8 +9,8 @@ def run(first_part: bool, expected: str):
 
 
 def test_part1():
-    run(True, "part1")
+    run(True, "13")
 
 
 def test_part2():
-    run(False, "part2")
+    run(False, "43")

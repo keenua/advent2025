@@ -8,18 +8,60 @@ from advent.initializer import AdventClient
 
 @dataclass
 class Input:
-    raw_data: str
+    ranges: list[tuple[int, int]]
 
 
 class Solver:
+    def parse_range(self, line: str) -> tuple[int, int]:
+        parts = line.split("-")
+        return int(parts[0]), int(parts[1])
+
     def parse_input(self, input: str) -> Input:
-        return Input(raw_data=input)
+        lines = input.strip().split(",")
+        print(lines)
+        ranges = [self.parse_range(line) for line in lines]
+        return Input(ranges=ranges)
+
+    def split_into_parts(self, number: int, parts: int) -> list[int]:
+        number_str = str(number)
+        part_length = len(number_str) // parts
+        try:
+            return [
+                int(number_str[i * part_length : (i + 1) * part_length])
+                for i in range(parts)
+            ]
+        except:
+            print(part_length, parts, number_str)
+            raise
+
+    def count_invalids(self, start: int, end: int, only_two: bool) -> int:
+        count = 0
+        for number in range(start, end + 1):
+            if number < 10:
+                continue
+            possible_parts = [2] if only_two else range(2, len(str(number)) + 1)
+            for part_count in possible_parts:
+                if len(str(number)) % part_count != 0:
+                    continue
+                parts = self.split_into_parts(number, part_count)
+
+                if all(part == parts[0] for part in parts):
+                    count += number
+                    break
+
+        return count
 
     def solve_part1(self, data: Input) -> str:
-        return "Not implemented yet"
+        sum = 0
+        for start, end in data.ranges:
+            sum += self.count_invalids(start, end, True)
+        return str(sum)
 
     def solve_part2(self, data: Input) -> str:
-        return "Not implemented yet"
+        sum = 0
+        for start, end in data.ranges:
+            sum += self.count_invalids(start, end, False)
+        return str(sum)
 
     def solve(self, input_file: str, first_part: bool) -> str:
         with open(input_file, "r") as f:

@@ -82,7 +82,9 @@ class AdventInitializer:
             f.write(task_text)
 
     def initialize_all_days(self):
-        current_day = datetime.now().day
+        now = datetime.now()
+        current_day = 12 if now > datetime(now.year, 12, 12) else now.day
+
         for day in range(1, current_day + 1):
             self.initialize_day(day)
 
